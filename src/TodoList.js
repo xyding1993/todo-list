@@ -1,13 +1,15 @@
 import React, { Fragment, Component } from "react";
 import TodoItem from "./TodoItem";
 import axios from 'axios';
+import './style.css'
 
 class TodoList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       inputValue: "",
-      list: []
+      list: [],
+      show:true
     };
   }
   // 在组件即将被挂载到页面之前执行的方法
@@ -45,7 +47,7 @@ class TodoList extends Component {
 
   render() {
     console.log("render");
-    const { inputValue } = this.state;
+    const { inputValue , show} = this.state;
     return (
       <Fragment>
         <label htmlFor="name">name</label>
@@ -66,6 +68,11 @@ class TodoList extends Component {
           {" "}
           {this.getTodoItem()}
         </ul>
+
+        <div>
+          <div className={ show ? 'show' : 'hidden'}>hello</div>
+          <button onClick={this.changeClick}> change </button>
+        </div>
       </Fragment>
     );
   }
@@ -109,6 +116,10 @@ class TodoList extends Component {
       );
     });
   };
+
+  changeClick = () => {
+    this.setState({show:!this.state.show});
+  }
 }
 
 export default TodoList;
