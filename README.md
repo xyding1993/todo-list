@@ -1,4 +1,2 @@
-# Todo list Demo
-
-Cahrles mock data
+Cahrles mock data  
 Use Redux-thunk 
