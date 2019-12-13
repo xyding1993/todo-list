@@ -1,54 +1,46 @@
-import React from "react";
-import store from "./store";
-import {
-  getInputValueChangeAction,
-  getAddTodoItemAction,
-  getDelTodoItemAction,
-  getInitList
-} from "./store/actionCreator";
-
-import TodoListUI from "./TodoListUI";
-
-class TodoList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = store.getState();
-    this.handleItemDel = this.handleItemDel.bind(this);
-    store.subscribe(this.handleStoreChange);
-  }
-
-
-  componentDidMount() {
-    const action = getInitList();
-    store.dispatch(action);
-  }
+import React, { Component } from "react";
+import { connect } from "react-redux";
+class TodoList extends Component {
   render() {
     return (
-      <TodoListUI
-        inputValue={this.state.inputValue}
-        handleInputChange={this.handleInputChange}
-        handleClick={this.handleClick}
-        list={this.state.list}
-        handleItemDel={this.handleItemDel}
-      />
+      <div>
+        <div>
+          <input
+            value={this.props.inputValue}
+            onChange={this.props.handleInputChange}
+          ></input>
+          <button>提交</button>
+        </div>
+        <div>
+          <ul>
+            <li>111</li>
+          </ul>
+        </div>
+      </div>
     );
-  }
-
-  handleInputChange = e => {
-    store.dispatch(getInputValueChangeAction(e.target.value));
-  };
-
-  handleStoreChange = () => {
-    this.setState(store.getState());
-  };
-
-  handleClick = () => {
-    store.dispatch(getAddTodoItemAction());
-  };
-
-  handleItemDel(index) {
-    store.dispatch(getDelTodoItemAction(index));
   }
 }
 
-export default TodoList;
+const mapStateToProps = state => {
+  return {
+    inputValue: state.inputValue
+  };
+};
+
+//  store.dispatch
+const mapDispatchToProps = dispatch => {
+  return {
+    handleInputChange(e) {
+      const action = {
+        type: "change_input_value",
+        value: e.target.value
+      };
+      dispatch(action);
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList);
